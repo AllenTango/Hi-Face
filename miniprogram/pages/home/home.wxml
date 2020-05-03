@@ -1,0 +1,6 @@
+<!--pages/home/home.wxml-->
+<view class="index-link">
+    <navigator url="./../image-tag/image-tag" class="item-link">图像标签</navigator>
+    <navigator url="./../charm/charm" class="item-link">人脸魅力值识别</navigator>
+    <navigator url="./../auto-wear/auto-wear" class="item-link">戴圣诞帽或口罩</navigator>
+</view>

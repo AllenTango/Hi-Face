@@ -14,7 +14,16 @@ App({
         traceUser: true,
       })
     }
-
-    this.globalData = {}
+  },
+  onShow: function() {
+    const self = this;
+    wx.getSystemInfo({
+      success: function(res) {
+        self.globalData.isIpx = res.model.indexOf("iPhone X") !== -1
+      },
+    })
+  },
+  globalData: {
+    isIpx: false
   }
 })

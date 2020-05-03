@@ -1,0 +1,17 @@
+<view class="container">
+  <text class="tips-text">
+        上传图片，会自动显示图片的主要特征标签
+  </text>
+  <view class="show" style="margin-top: {{isChange ? '-400rpx' : '-300rpx'}}">
+    <image class="origin-img" src="{{originUrl}}" style="height: {{isChange ? '400rpx' : '600rpx'}}"></image>
+    <view class="tags" hidden="{{tags == []}}">
+      <block wx:for="{{tags}}" wx:key="idx" wx:for-item="tag">
+        <text class="tag" id="{{idx}}">{{tag.Name}}</text>
+      </block>
+    </view>
+  </view>
+  <view class="btn-group {{isIpx ? 'ipx' :''}}" bindtap="doUpload">
+    <image class="btn-img" src="../../images/upload.png"></image>
+    <text class="btn-text">上传</text>
+  </view>
+</view>
