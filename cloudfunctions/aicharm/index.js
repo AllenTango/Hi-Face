@@ -1,16 +1,58 @@
-// 云函数入口文件
-const cloud = require('wx-server-sdk')
+const config = require('./config')
+const TcbService = require('tcb-service-sdk')
+const tcbService = new TcbService()
 
-cloud.init()
+const {
+  SecretID,
+  SecretKey
+} = config
 
-// 云函数入口函数
-exports.main = async (event, context) => {
-  const wxContext = cloud.getWXContext()
+exports.main = async(event) => {
+  const {
+    MaxFaceNum,
+    MinFaceSize,
+    FileID,
+    Url,
+    NeedFaceAttributes = 1,
+    NeedQualityDetection = 1,
+  } = event
 
-  return {
-    event,
-    openid: wxContext.OPENID,
-    appid: wxContext.APPID,
-    unionid: wxContext.UNIONID,
+  try {
+
+    let fileContent = await tcbService.utils.getContent({
+      fileID: FileID,
+      url: Url
+    })
+
+    if (!fileContent) {
+      return {
+        code: 10002,
+        message: 'image content is empty'
+      }
+    }
+
+    const result = await tcbService.callService({
+      service: 'ai',
+      action: 'DetectFace',
+      data: {
+        MaxFaceNum,
+        MinFaceSize,
+        Image: fileContent.toString('base64'),
+        Url,
+        NeedFaceAttributes,
+        NeedQualityDetection
+      },
+      options: {
+        secretID: SecretID,
+        secretKey: SecretKey
+      }
+    })
+
+    return result
+  } catch (e) {
+    return {
+      code: 10001,
+      message: e.message
+    }
   }
 }

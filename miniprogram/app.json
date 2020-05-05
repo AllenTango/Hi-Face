@@ -1,6 +1,5 @@
 {
   "pages": [
-    "pages/image-tag/image-tag",
     "pages/charm/charm",
     "pages/auto-wear/auto-wear"
   ],
